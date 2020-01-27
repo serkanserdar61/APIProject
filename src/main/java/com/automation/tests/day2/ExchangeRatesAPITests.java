@@ -28,6 +28,8 @@ public class ExchangeRatesAPITests {
         assertEquals("application/json", response.getHeader("Content-Type"));
         //or like this
         assertEquals("application/json", response.getContentType());
+
+
     }
     //GET https://api.exchangeratesapi.io/latest?base=USD HTTP/1.1
     //base it's a query parameter that will ask web service to change currency from eu to something else
@@ -73,6 +75,7 @@ public class ExchangeRatesAPITests {
                 queryParam("symbols", "EUR", "GBP", "JPY").
                 get();
         System.out.println(response.prettyPrint());
+        assertTrue(response.getBody().asString().contains("EUR"));
     }
 
     /**

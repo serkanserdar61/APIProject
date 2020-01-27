@@ -6,6 +6,7 @@ import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ORDSTests {
@@ -34,9 +35,10 @@ public class ORDSTests {
     public void test1() {
         Response response = given().get(baseURI + "/employees");
 
-//        System.out.println(response.getBody().asString());
+       //System.out.println(response.getBody().asString());
 
         assertEquals(200, response.getStatusCode());
+
 
         System.out.println(response.prettyPrint());
     }
@@ -53,6 +55,12 @@ public class ORDSTests {
         Response response = given().
                 header("accept", "application/json").
                 get(baseURI + "/employees/100");
+        System.out.println(response.path("first_name").toString());
+        System.out.println(response.path("last_name").toString());
+        System.out.println(response.path("email").toString());
+        System.out.println(response.path("hire_date").toString());
+       assertEquals("Holy",response.path("first_name").toString());
+        assertTrue(response.asString().contains("Holy"));
         int actualStatusCode = response.getStatusCode();
         System.out.println(response.prettyPrint());
         assertEquals(200, actualStatusCode);
@@ -68,6 +76,7 @@ public class ORDSTests {
         assertEquals(200, response.getStatusCode());
         //to get specific header
         Header header = response.getHeaders().get("Content-Type");
+
         //print all headers one by one
         for(Header h: response.getHeaders()){
             System.out.println(h);

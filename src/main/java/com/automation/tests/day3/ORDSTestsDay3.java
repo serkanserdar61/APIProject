@@ -22,6 +22,7 @@ public class ORDSTestsDay3 {
 
     @BeforeAll
     public static void setup() {
+
         baseURI = ConfigurationReader.getProperty("ords.uri");
     }
 
@@ -31,8 +32,9 @@ public class ORDSTestsDay3 {
     public void test1() {
         given().
                 accept("application/json").
+        when().
                 get("/employees").
-                then().
+        then().
                 assertThat().statusCode(200).
                 and().assertThat().contentType("application/json").
                 log().all(true);
@@ -47,11 +49,13 @@ public class ORDSTestsDay3 {
         given().
                 accept("application/json").
                 pathParam("id", 100).
-                when().get("/employees/{id}").
-                then().assertThat().statusCode(200).
+        when().
+                get("/employees/{id}").
+        then().
+                assertThat().statusCode(200).
                 and().assertThat().body("employee_id", is(100),
                 "department_id", is(90),
-                "last_name", is("King")).
+                         "last_name", is("King")).
                 log().all(true);
         //body ("phone_number") --> 515.123.4567
         //is is coming from ---> import static org.hamcrest.Matchers.*;
@@ -66,15 +70,15 @@ public class ORDSTestsDay3 {
      * then assert that status code is 200
      * and assert that region name is Europe
      */
-
+                //"http://ec2-54-152-156-255.compute-1.amazonaws.com:1000/ords/hr/regions/1"
     @Test
     public void test3() {
         given().
                 accept("application/json").
                 pathParam("id", 1).
-                when().
+        when().
                 get("/regions/{id}").
-                then().
+        then().
                 assertThat().statusCode(200).
                 assertThat().body("region_name", is("Europe")).
                 time(lessThan(10L), TimeUnit.SECONDS).
@@ -87,7 +91,7 @@ public class ORDSTestsDay3 {
     public void test4() {
         JsonPath json = given().
                 accept("application/json").
-                when().
+         when().
                 get("/employees").
                 thenReturn().jsonPath();
 
@@ -101,21 +105,21 @@ public class ORDSTestsDay3 {
         //in JSON, employee looks like object that consists of params and their values
         //we can parse that json object and store in the map.
         Map<String, ?> firstEmployee = json.get("items[0]"); // we put ? because it can be also not String
-        System.out.println(firstEmployee);
+       System.out.println(firstEmployee);
 
         //since firstEmployee it's a map (key-value pair, we can iterate through it by using Entry. entry represent one key=value pair)
         // put ? as a value (Map<String, ?>), because there are values of different data type: string, integer, etc..
         //if you put String as value, you might get some casting exception that cannot convert from integer(or something else) to string
         for (Map.Entry<String, ?> entry : firstEmployee.entrySet()) {
-            System.out.println("key: " + entry.getKey() + ", value: " + entry.getValue());
-        }
+           System.out.println("key: " + entry.getKey() + ", value: " + entry.getValue());
+       }
 //       get and print all last names
 //        items it's an object. whenever you need to read some property from the object, you put object.property
 //        but, if response has multiple objects, we can get property from every object
-        List<String> lastNames = json.get("items.last_name");
-        for (String str : lastNames) {
-            System.out.println("last name: " + str);
-        }
+       List<String> lastNames = json.get("items.last_name");
+       for (String str : lastNames) {
+         System.out.println("last name: " + str);
+       }
 
     }
 
@@ -130,14 +134,15 @@ public class ORDSTestsDay3 {
                 when().
                 get("/countries").prettyPeek().jsonPath(); // exclude .prettyPeek() and you will not see detailed info about response
 
-        List<HashMap<String, ?>> allCountries = json.get("items");
+       List<HashMap<String, ?>> allCountries = json.get("items");
 
-        System.out.println(allCountries);
+      System.out.println(allCountries);
         // when we read data from json response, values are not only strings
         //so if we are not sure that all values will have same data type
-        //we can put ?
-        for (HashMap<String, ?> map : allCountries) {
-            System.out.println(map);
+        //we can put ?\
+
+       for (HashMap<String, ?> map : allCountries) {
+           System.out.println(map);
         }
     }
 
@@ -188,7 +193,9 @@ public class ORDSTestsDay3 {
     @Test
     public void test8(){
         Response response = given().
+                //header("accept","application/json").
                 accept(ContentType.JSON).
+                //accept("application/json").
                 pathParam("id", 1700).
                 when().
                 get("/locations/{id}");
