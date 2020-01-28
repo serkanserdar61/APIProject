@@ -30,7 +30,7 @@ public class MetaWeatherTests {
                 .queryParam("query", "New")
                 .get();
         assertEquals(200, response.getStatusCode());
-        System.out.println(response.prettyPrint());
+        System.out.println(response.prettyPeek());
 
     }
 
