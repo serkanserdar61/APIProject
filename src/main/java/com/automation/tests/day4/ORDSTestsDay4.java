@@ -136,7 +136,7 @@ public class ORDSTestsDay4 {
     public void test5() {
         //to use List.of() set java 9 at least
         List<String> expected = List.of("Argentina", "Brazil", "Canada", "Mexico", "United States of America");
-
+                             //Arrays.asList de kullanilabilir
         Response response = given().
                 accept(ContentType.JSON).
                 queryParam("q", "{\"region_id\":\"2\"}").
@@ -231,7 +231,7 @@ public class ORDSTestsDay4 {
                 9000, 9000, 8200, 8200, 8000,
                 7900, 7800, 7700, 6900, 6500,
                 6000, 5800, 4800, 4800, 4200,
-                3100, 2900, 2800, 2600, 2500);
+                3100, 2900, 2800, 2600, 2500);//Arrays.asList de kullanilabilir
         Response response = given().
                 accept(ContentType.JSON).
                 when().
