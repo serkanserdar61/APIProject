@@ -17,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ORDSTestsDay5 {
     @BeforeAll
     public static void setup() {
+
         baseURI = ConfigurationReader.getProperty("ords.uri");
     }
 
@@ -37,8 +38,10 @@ public class ORDSTestsDay5 {
                 get("/employees");
 
         JsonPath jsonPath = response.jsonPath();
-
+        String firstname=response.jsonPath().getString("items[0].first_name");
+        System.out.println(firstname);
         List<Integer> salaries = jsonPath.getList("items.salary");
+        System.out.println(salaries);
 
         int sum = 0;
         //we are finding a sum of all salaries
